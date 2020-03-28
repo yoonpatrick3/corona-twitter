@@ -47,23 +47,28 @@ def job():
     try:
         sheetname = 'C:/Users/12244/yoonp/independentCS/corona/' + d.strftime("%B") + '-Twitter-Corona.xlsx'
         book = xlrd.open_workbook(sheetname)
+        worksheetREAD = book.sheet_by_name('Sheet1')
         sheet = book.sheet_by_index(0)
         next_row_num = len(sheet.col(0))
 
         workbook = xlsxwriter.Workbook(sheetname)
         worksheet = workbook.add_worksheet()
-        workbook.close()
 
-        for j in range(next_row_num):
-            for i in range(len(sheet.row(i))):
-                coord = xlrd.formula.cellname(j,i)
-                worksheet.write(coord, sheet.row(j)[i])
+        if worksheetREAD.cell(next_row_num - 1, 0).value == current_date:
+            print("Already checked today!")
+            return "leave"
+
+        for i in range(next_row_num):
+            for j in range(len(sheet.row(i))):
+                coord = xlrd.formula.cellname(i,j)
+                value = worksheetREAD.cell(i, j).value
+                worksheet.write(coord, value)
         for i in range(len(data)):
             coord = xlrd.formula.cellname(next_row_num, i)
             worksheet.write(coord, data[i])
-
+        workbook.close()
         print("Added entries")
-    except:
+    except FileNotFoundError:
         # creates new workbook for new month
         workbook = xlsxwriter.Workbook(sheetname)
         worksheet = workbook.add_worksheet()
@@ -73,10 +78,17 @@ def job():
         workbook.close()
 
         print("Added entries")
+    except:
+        print("Ope, there's a problem!")
 
-schedule.every().day.at("01:00").do(job)
+    
+
+
+job()
+
+#schedule.every().day.at("01:00").do(job)
 # calls job method everyday at 1
-while True: # CHANGE TO TRUE WHEN U WANT TO RUn
-    schedule.run_pending()
-    time.sleep(60) # wait one minute
+#while True: # CHANGE TO TRUE WHEN U WANT TO RUn
+    #schedule.run_pending()
+    #time.sleep(60) # wait one minute
 #nohup python cc.py &
