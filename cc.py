@@ -23,15 +23,17 @@ d = datetime.datetime.now()
 current_date = str(d.year) + "-" + str(d.month) + "-" + str(d.day)
 
 def get_corona_trends(trends):
-    keywords = ['corona', 'covid', 'quarantine', 'stayathomeandstaysafe', 'lockdown']
+    keywords = ['corona', 'covid', 'quarantine', 'stayathome', 'lockdown', '30moredays', 'cdc']
 
     arr = [current_date]
     total_volume = 0
 
     for word in keywords:
         for trend in trends:
-            trend1 =  ast.literal_eval(str(trend).replace("\"", "'"))
+            newStr = str(trend).replace("\'", " ")
+            trend1 =  ast.literal_eval(newStr.replace("\"", "'"))
             name = trend1['name']
+            print(name)
             if word in name.lower() and 'tweet_volume' in trend1:
                 arr.append(name + ": " + str(trend1['tweet_volume']))
                 total_volume += trend1['tweet_volume']
@@ -42,7 +44,7 @@ def get_corona_trends(trends):
 
 def job():
 
-    data = get_corona_trends(api.GetTrendsCurrent())
+    data = get_corona_trends(api.GetTrendsWoeid(23424977))
 
     try:
         sheetname = 'C:/Users/12244/yoonp/independentCS/corona/' + d.strftime("%B") + '-Twitter-Corona.xlsx'
