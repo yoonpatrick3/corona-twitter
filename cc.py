@@ -23,7 +23,7 @@ d = datetime.datetime.now()
 current_date = str(d.year) + "-" + str(d.month) + "-" + str(d.day)
 
 def get_corona_trends(trends):
-    keywords = ['corona', 'covid', 'quarantine', 'stayathome', 'lockdown', '30moredays', 'cdc']
+    keywords = ['corona', 'covid', 'quarantine', 'stayathome', 'lockdown', '30moredays', 'cdc', 'pandemic']
 
     arr = [current_date]
     total_volume = 0
