@@ -47,7 +47,7 @@ def job():
     data = get_corona_trends(api.GetTrendsWoeid(23424977))
 
     try:
-        sheetname = 'C:/Users/12244/yoonp/independentCS/corona/' + d.strftime("%B") + '-Twitter-Corona.xlsx'
+        sheetname = 'G:/yoonp/independentCS/corona/' + d.strftime("%B") + '-Twitter-Corona.xlsx'
         book = xlrd.open_workbook(sheetname)
         worksheetREAD = book.sheet_by_name('Sheet1')
         sheet = book.sheet_by_index(0)
